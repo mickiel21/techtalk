@@ -1,28 +1,46 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ToDos v-bind:todoEntries="todoEntries" @delete-todo-event="deleteToDoItem">
+    </ToDos>
+    <AddToDoButton @add-todo-event="addToDoItem" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import ToDos from "./components/ToDos";
+import AddToDoButton from "./components/AddToDoButton";
+import axios from "axios";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
-</script>
+    ToDos,
+    AddToDoButton,
+  },
+  data() {
+    return {
+      todoEntries: [],
+    };
+  },
+  methods: {
+    addToDoItem(newToDoItem) {
+      this.todoEntries = [...this.todoEntries, newToDoItem];
+    },
+    deleteToDoItem(toDoId) {
+      this.todoEntries = this.todoEntries.filter((item) => item.id !== toDoId);
+    },
+  },
 
-<style>
+  created() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
+      .then((res) => (this.todoEntries = res.data))
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  },
+};
+</script>
+<style >
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
