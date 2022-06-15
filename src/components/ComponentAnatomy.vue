@@ -44,6 +44,17 @@ export default {
   data() {
     return {
       is_available: true,
+      check_item: [1, 2, 3, 4, 5],
+      car_array: [
+        {
+          id: 1,
+          name: "toyota",
+        },
+        {
+          id: 2,
+          name: "Honda",
+        },
+      ],
     };
   },
   computed: {

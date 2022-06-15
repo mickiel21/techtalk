@@ -10,6 +10,11 @@ export default {
   name: "ToDoItem",
   components: {},
   props: ["todoItem"],
+  methods: {
+    markComplete() {
+      this.todoItem.completed = !this.todoItem.completed;
+    },
+  },
 };
 </script>
  <style>

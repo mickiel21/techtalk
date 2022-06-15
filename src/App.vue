@@ -1,46 +1,72 @@
 <template>
-  <div id="app">
-    <ToDos v-bind:todoEntries="todoEntries" @delete-todo-event="deleteToDoItem">
-    </ToDos>
-    <AddToDoButton @add-todo-event="addToDoItem" />
-  </div>
+  <div></div>
 </template>
-
 <script>
-import ToDos from "./components/ToDos";
-import AddToDoButton from "./components/AddToDoButton";
-import axios from "axios";
 export default {
-  name: "App",
-  components: {
-    ToDos,
-    AddToDoButton,
+  components: {},
+  props: {
+    title: {
+      type: String,
+      required: false,
+    },
+    array_items: {
+      type: Array,
+      required: false,
+    },
+    object_items: {
+      required: false,
+      type: Object,
+    },
+    loading_boolean: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
+    total: {
+      required: false,
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
-      todoEntries: [],
+      is_available: false,
+      check_item: [1, 2, 3, 4, 5],
+      car_arrays: [
+        {
+          id: 1,
+          name: "toyota",
+        },
+        {
+          id: 2,
+          name: "Honda",
+        },
+        {
+          id: 3,
+          name: "Mitsubishi",
+        },
+      ],
     };
   },
+  computed: {
+    carAvailability() {
+      return this.is_available ? "Yes" : "No";
+    },
+  },
+  watch: {
+    is_available(oldValue, newValue) {
+      console.log(oldValue);
+      console.log(newValue);
+    },
+  },
   methods: {
-    addToDoItem(newToDoItem) {
-      this.todoEntries = [...this.todoEntries, newToDoItem];
-    },
-    deleteToDoItem(toDoId) {
-      this.todoEntries = this.todoEntries.filter((item) => item.id !== toDoId);
+    click() {
+      console.log("click is working");
     },
   },
-
-  created() {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
-      .then((res) => (this.todoEntries = res.data))
-      .catch((error) => {
-        return Promise.reject(error);
-      });
-  },
+  beforeCreate() {},
+  created() {},
+  beforemount() {},
+  mounted() {},
 };
 </script>
-<style >
-#app {
-}
-</style>
